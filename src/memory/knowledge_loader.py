@@ -98,11 +98,19 @@ class KnowledgeBaseLoader:
             List of relevant knowledge base items
         """
         try:
-            results = self.mem0_client.memory.search(
+            raw_results = self.mem0_client.memory.search(
                 query=query,
                 user_id=self.knowledge_base_user_id,
                 limit=limit
             )
+            
+            # Extract the actual results list from the response
+            if isinstance(raw_results, dict) and 'results' in raw_results:
+                results = raw_results['results']
+            elif isinstance(raw_results, list):
+                results = raw_results
+            else:
+                results = []
             
             self.logger.info(f"Found {len(results)} relevant knowledge base items for query: {query}")
             return results

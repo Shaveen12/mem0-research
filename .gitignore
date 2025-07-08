@@ -227,3 +227,6 @@ secrets.json
 config.json
 .secrets
 
+# Claude analysis results
+claude-result.md
+

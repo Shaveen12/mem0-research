@@ -8,6 +8,10 @@ import os
 import sys
 import logging
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add the project root to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -104,8 +108,14 @@ def test_customer_support_agent():
     logger.info("🤖 Testing customer support agent...")
     
     try:
-        # Initialize agent
-        agent = CustomerSupportAgent(company_name="TechCorp")
+        # Initialize memory client first
+        client = Mem0Client()
+        
+        # Initialize knowledge base
+        knowledge_loader = initialize_knowledge_base(client)
+        
+        # Initialize agent with knowledge loader
+        agent = CustomerSupportAgent(company_name="TechCorp", knowledge_loader=knowledge_loader)
         
         # Test customer queries
         test_queries = [

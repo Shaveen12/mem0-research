@@ -274,7 +274,7 @@ Edit `src/ui/streamlit_app.py` to:
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `OPENAI_API_KEY` | Yes | OpenAI API key for LLM functionality |
-| `MEM0_API_KEY` | No | Mem0 API key for cloud features |
+| `MEM0_API_KEY` | No | Mem0 API key for cloud features (optional) |
 
 ## 🤝 Contributing
 

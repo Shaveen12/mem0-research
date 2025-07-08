@@ -6,6 +6,10 @@ Simple script to run the TechCorp Customer Support Agent Streamlit application.
 import os
 import sys
 import subprocess
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 def check_environment():
     """Check if required environment variables are set."""

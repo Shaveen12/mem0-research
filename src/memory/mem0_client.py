@@ -2,6 +2,10 @@ import os
 from typing import List, Dict, Any, Optional
 from mem0 import Memory
 import logging
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 class Mem0Client:
     """
@@ -140,8 +144,14 @@ class Mem0Client:
                 limit=limit
             )
             
-            self.logger.info(f"Found {len(results)} relevant memories for customer {customer_id}")
-            return results
+            # Ensure we return a list - extract from dict if needed
+            if isinstance(results, dict) and 'results' in results:
+                memories = results['results']
+            else:
+                memories = results if isinstance(results, list) else []
+            
+            self.logger.info(f"Found {len(memories)} relevant memories for customer {customer_id}")
+            return memories
             
         except Exception as e:
             self.logger.error(f"Failed to search memories for customer {customer_id}: {e}")

@@ -6,6 +6,10 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 import sys
 import traceback
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add the project root to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -27,58 +31,189 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better styling
+# Custom CSS for better styling and improved contrast
 st.markdown("""
 <style>
+    /* Main theme improvements */
     .main-header {
-        color: #2E86AB;
+        color: #1a365d;
         text-align: center;
         padding: 1rem 0;
-        border-bottom: 2px solid #2E86AB;
+        border-bottom: 3px solid #1a365d;
         margin-bottom: 2rem;
+        font-weight: bold;
     }
+    
+    /* Chat message styling with better contrast */
     .chat-message {
         padding: 1rem;
         border-radius: 10px;
         margin: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        font-size: 14px;
+        line-height: 1.5;
     }
+    
     .user-message {
-        background-color: #E3F2FD;
-        border-left: 4px solid #2196F3;
+        background-color: #f0f8ff;
+        border-left: 4px solid #1e40af;
+        color: #1e3a8a;
     }
+    
+    .user-message strong {
+        color: #1e40af;
+    }
+    
     .assistant-message {
-        background-color: #F3E5F5;
-        border-left: 4px solid #9C27B0;
+        background-color: #faf5ff;
+        border-left: 4px solid #7c3aed;
+        color: #5b21b6;
     }
+    
+    .assistant-message strong {
+        color: #7c3aed;
+    }
+    
+    /* Memory and knowledge items with better readability */
     .memory-item {
-        background-color: #FFF3E0;
-        border: 1px solid #FF9800;
-        border-radius: 5px;
-        padding: 0.5rem;
+        background-color: #fffbeb;
+        border: 2px solid #d97706;
+        border-radius: 8px;
+        padding: 0.75rem;
         margin: 0.5rem 0;
+        color: #92400e;
+        font-size: 13px;
+        line-height: 1.4;
     }
+    
+    .memory-item strong {
+        color: #b45309;
+    }
+    
     .knowledge-item {
-        background-color: #E8F5E8;
-        border: 1px solid #4CAF50;
-        border-radius: 5px;
-        padding: 0.5rem;
+        background-color: #f0fdf4;
+        border: 2px solid #16a34a;
+        border-radius: 8px;
+        padding: 0.75rem;
         margin: 0.5rem 0;
+        color: #15803d;
+        font-size: 13px;
+        line-height: 1.4;
     }
+    
+    .knowledge-item strong {
+        color: #166534;
+    }
+    
+    /* Error and success messages with high contrast */
     .error-message {
-        background-color: #FFEBEE;
-        border: 1px solid #F44336;
-        color: #D32F2F;
+        background-color: #fef2f2;
+        border: 2px solid #dc2626;
+        color: #991b1b;
         padding: 1rem;
-        border-radius: 5px;
+        border-radius: 8px;
         margin: 1rem 0;
+        font-weight: 500;
     }
+    
     .success-message {
-        background-color: #E8F5E8;
-        border: 1px solid #4CAF50;
-        color: #2E7D32;
+        background-color: #f0fdf4;
+        border: 2px solid #16a34a;
+        color: #166534;
         padding: 1rem;
-        border-radius: 5px;
+        border-radius: 8px;
         margin: 1rem 0;
+        font-weight: 500;
+    }
+    
+    /* Improve sidebar text contrast */
+    .css-1d391kg {
+        background-color: #f8fafc;
+    }
+    
+    /* Improve input field contrast */
+    .stTextInput > div > div > input {
+        background-color: #ffffff;
+        border: 2px solid #d1d5db;
+        color: #1f2937;
+        font-size: 14px;
+    }
+    
+    .stTextInput > div > div > input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Improve button contrast */
+    .stButton > button {
+        background-color: #3b82f6;
+        color: #ffffff;
+        border: none;
+        font-weight: 500;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        transition: all 0.2s;
+    }
+    
+    .stButton > button:hover {
+        background-color: #2563eb;
+        transform: translateY(-1px);
+    }
+    
+    /* Improve metric display */
+    .css-1r6slb0 {
+        background-color: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+    
+    /* Improve expander contrast */
+    .streamlit-expanderHeader {
+        background-color: #f1f5f9;
+        color: #1e293b;
+        font-weight: 500;
+    }
+    
+    /* Improve chat input */
+    .stChatInput > div > div > div > div {
+        background-color: #ffffff;
+        border: 2px solid #d1d5db;
+    }
+    
+    .stChatInput > div > div > div > div:focus-within {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Improve general text readability */
+    .stMarkdown {
+        color: #1f2937;
+    }
+    
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        color: #1e293b;
+    }
+    
+    /* Improve sidebar headers */
+    .css-1d391kg h1, .css-1d391kg h2, .css-1d391kg h3 {
+        color: #1e293b;
+    }
+    
+    /* Improve divider visibility */
+    .css-1wbqy5l {
+        border-color: #d1d5db;
+    }
+    
+    /* Improve spinner contrast */
+    .stSpinner > div {
+        border-top-color: #3b82f6;
+    }
+    
+    /* Improve help text */
+    .stTextInput > label > div > p {
+        color: #6b7280;
+        font-size: 12px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -87,11 +222,15 @@ st.markdown("""
 def initialize_agent():
     """Initialize the customer support agent with caching."""
     try:
-        # Initialize the agent
-        agent = CustomerSupportAgent(company_name="TechCorp")
+        # Initialize memory client first
+        from src.memory.mem0_client import Mem0Client
+        memory_client = Mem0Client()
         
         # Initialize knowledge base
-        knowledge_loader = initialize_knowledge_base(agent.memory_client)
+        knowledge_loader = initialize_knowledge_base(memory_client)
+        
+        # Initialize the agent with knowledge loader
+        agent = CustomerSupportAgent(company_name="TechCorp", knowledge_loader=knowledge_loader)
         
         return agent, knowledge_loader
     except Exception as e:
